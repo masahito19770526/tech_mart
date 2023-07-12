@@ -31,8 +31,15 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+ # deviseを使用できる
+  gem 'devise'
+ 
+  # bootstrapを使用できる
+  gem 'bootstrap', '~> 4.6.0'
+  gem 'jquery-rails'
+  gem 'bootsnap'
+  
+  gem 'dotenv-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
