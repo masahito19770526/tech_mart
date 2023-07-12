@@ -14,5 +14,7 @@ Rails.application.routes.draw do
     get "verify", :to => "users/registrations#verify"
     delete "logout", :to => "users/sessions#destroy"
   end
-    resources :products
+    resources :products do
+      resources :reviews, only: [:create]
+  end
 end
