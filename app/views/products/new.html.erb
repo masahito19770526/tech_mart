@@ -1,0 +1,11 @@
+<h1>Products#new</h1>
+<p>Find me in app/views/products/new.html.erb</p>
+ <% @products.each do |product| %>
+   <%= product.name %>
+   <%= product.description %>
+   <%= product.price %>
+   <%= f.collection_select(:category_id, @categories, :id, :name) %>
+   <%= f.submit "Create" %>
+ <% end %>
+
+ <%= link_to "Back", products_path %>
