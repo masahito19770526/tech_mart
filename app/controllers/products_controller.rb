@@ -19,7 +19,7 @@ class ProductsController < ApplicationController
   end
 
   def show
-     @reviews = @product.reviews_with_id
+    @reviews = @product.reviews_with_id
     @review = @reviews.new
     @star_repeat_select = Review.star_repeat_select
   end

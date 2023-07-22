@@ -11,9 +11,14 @@ class ShoppingCart < ApplicationRecord
    scope :bought_days_mysql, -> { bought_carts.order(updated_at: :desc).group("date_format(updated_at + interval 9 hour, '%Y-%m-%d')").pluck(:updated_at) }
    scope :search_bought_carts_by_month, -> (month) { bought_carts.where(updated_at: month.all_month) }
    scope :search_bought_carts_by_day, -> (day) { bought_carts.where(updated_at: day.all_day) }
+   scope :search_carts_by_ids, -> (ids) { where("id LIKE ?", "%#{ids}%") }
+   scope :search_bought_carts_by_ids, -> (ids) { bought_carts.search_carts_by_ids(ids) }
    scope :sort_list, -> {
      {"日別": "daily", "月別": "month"}
    }
+   
+   CARRIAGE=800
+   FREE_SHIPPING=0
  
    def self.get_monthly_sales
      if Rails.env.production?
@@ -69,5 +74,12 @@ class ShoppingCart < ApplicationRecord
 
   def tax_pct
     0
+  end
+  
+  def shipping_cost
+     product_ids = ShoppingCartItem.user_cart_item_ids(self.id)
+     products_carriage_list = Product.check_products_carriage_list(product_ids)
+     products_carriage_list.include?(true) ? Money.new(CARRIAGE * 100)
+                                           : Money.new(FREE_SHIPPING)
   end
 end
